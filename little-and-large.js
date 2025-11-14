@@ -1,2 +1,2 @@
-let large = 2^1023
-const little = 1
+let large = 8.98846567431e+307
+const little = 2.22044604925e-16
