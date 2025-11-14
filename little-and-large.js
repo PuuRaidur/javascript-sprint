@@ -1,2 +1,2 @@
-let large = 8.98846567431e+307
-const little = 2.22044604925e-16
+let large = Number.MAX_VALUE
+const little = Number.MIN_VALUE
