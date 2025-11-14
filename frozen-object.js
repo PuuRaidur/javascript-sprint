@@ -4,4 +4,5 @@ const obj = {
     middleName: undefined,
     name: "Puu"
 }
+
 Object.freeze(obj)
