@@ -10,7 +10,7 @@ function getLastElement(data) {
     if(data === null || data == "") {
         return undefined;
     } else {
-        return data[Object.lastIndexOf(data)];
+        return data[data.length - 1];
     }
 }
 
