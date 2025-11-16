@@ -1,6 +1,6 @@
 const mathObj = {
     abs: function abs(a) {
-        Math.abs(a)
+        return Math.abs(a)
     },
     isEven: function isEven(a) {
         if(a % 2 === 0) {
