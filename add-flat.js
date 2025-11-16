@@ -8,5 +8,3 @@ function sumNestedArray(array) {
     }
     return sum
 }
-
-console.log(sumNestedArray([10, [5, "broken", 3], [[2, 4], "empty"]]))
