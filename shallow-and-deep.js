@@ -1,2 +1,2 @@
-const shallowCopy = Array.from(obj)
-const deepCopy = JSON.parse(JSON.stringify(obj))
+const shallowCopy = Array.from(original)
+const deepCopy = JSON.parse(JSON.stringify(original))
