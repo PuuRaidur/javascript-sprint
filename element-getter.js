@@ -1,5 +1,5 @@
 function getFirstElement(data) {
-    if(data === null || data == "") {
+    if(data === null || data === "") {
         return undefined;
     } else {
         return data[0];
@@ -7,7 +7,7 @@ function getFirstElement(data) {
 }
 
 function getLastElement(data) {
-    if(data === null || data == "") {
+    if(data === null || data === "") {
         return undefined;
     } else {
         return data[data.length - 1];
@@ -15,7 +15,7 @@ function getLastElement(data) {
 }
 
 function getElementByIndex(data, index) {
-    if(data === null || data == "") {
+    if(data === null || data === "") {
         return undefined;
     } else {
         return data[index];
