@@ -7,5 +7,5 @@ function getValueFromKey(obj, key) {
 }
 
 function addKeyValuePairs(obj, key_value) {
-    return obj + key_value
+    return Object.assign(obj, key_value)
 }
