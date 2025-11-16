@@ -6,7 +6,6 @@ function getValueFromKey(obj, key) {
     }
 }
 
-function addKeyValuePairs(obj1, obj2) {
-    const obj3 = obj1 + obj2
-    return obj3
+function addKeyValuePairs(obj, key_value) {
+    return Object.entries(...obj, key_value)
 }
