@@ -25,7 +25,7 @@ const mathObj = {
             return a
         }
         if(a === b){
-            return null
+            return undefined
         }
         return b
     },
@@ -34,7 +34,7 @@ const mathObj = {
             return b
         }
         if(a === b){
-            return null
+            return undefined
         }
         return a
     }
