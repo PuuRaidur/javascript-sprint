@@ -1,25 +1,25 @@
 function printPrettyDate(date) {
-    const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+    const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     let day = "";
-    if(date.getDay() === 1) {
+    if(date.getDay() === 0) {
         day = days[0];
     }
-    else if(date.getDay() === 2) {
+    else if(date.getDay() === 1) {
         day = days[1];
     }
-    else if(date.getDay() === 3) {
+    else if(date.getDay() === 2) {
         day = days[2];
     }
-    else if(date.getDay() === 4) {
+    else if(date.getDay() === 3) {
         day = days[3];
     }
-    else if(date.getDay() === 5) {
+    else if(date.getDay() === 4) {
         day = days[4];
     }
-    else if(date.getDay() === 6) {
+    else if(date.getDay() === 5) {
         day = days[5];
     }
-    else if(date.getDay() === 0) {
+    else if(date.getDay() === 6) {
         day = days[6];
     }
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
