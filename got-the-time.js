@@ -19,7 +19,7 @@ function printPrettyDate(date) {
     else if(date.getDay() === 6) {
         day = days[5];
     }
-    else if(date.getDay() === 7) {
+    else if(date.getDay() === 0) {
         day = days[6];
     }
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
