@@ -75,7 +75,7 @@ function printPrettyDate(date) {
         month + " " +
         date.getDate() + ", " +
         date.getFullYear() +
-        " and the time is " +
+        ", and the time is " +
         hour + ":" +
         date.getMinutes() + ":" +
         date.getSeconds() + " " +
