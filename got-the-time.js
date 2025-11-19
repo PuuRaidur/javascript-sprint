@@ -60,24 +60,30 @@ function printPrettyDate(date) {
     else if(date.getMonth() === 11) {
         month = months[11];
     }
-    let hour = 0;
-    let zone = ''
-    if(date.getHours() < 12) {
-        hour = date.getHours();
-        zone = "AM";
+    const hour24 = date.getHours();
+    const zone = hour24 < 12 ? 'AM' : 'PM';
+    let hours = "";
+    if(hour24 > 12) {
+        hours = hour24 - 12;
+    }
+    else if(hour24 === 0) {
+        hours = 12;
     }
     else {
-        hour = '0' + date.getHours() - 12;
-        zone = "PM";
+        hours = hour24;
     }
+    hours = String(hours).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    const seconds = String(date.getSeconds()).padStart(2, '0');
     console.log("Today is " +
         day + ", " +
         month + " " +
         date.getDate() + ", " +
         date.getFullYear() +
         ", and the time is " +
-        hour + ":" +
-        date.getMinutes() + ":" +
-        date.getSeconds() + " " +
+        hours + ":" +
+        minutes + ":" +
+        seconds + " " +
         zone + ".");
 }
+printPrettyDate(new Date());
