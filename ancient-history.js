@@ -5,8 +5,18 @@ function classifyDate(dateString) {
 
     if (diff <= 0) {
         const age = currentDate - dateString;
-        return age > msInYear ? 'ancient' : 'past';
+        if(age > msInYear) {
+            return 'ancient'
+        }
+        else {
+            return 'past'
+        }
     } else {
-        return diff > msInYear ? 'distant future' : 'future';
+        if(diff > msInYear) {
+            return 'distant future'
+        }
+        else {
+            return 'future'
+        }
     }
 }
