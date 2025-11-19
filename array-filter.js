@@ -3,7 +3,7 @@ function filterOutOddNumbers(arr) {
 }
 
 function filterObjectsByNameLength(arr, length) {
-    return arr.filter(obj => obj.name.length < length);
+    return arr.filter(obj => obj.name.length <= length);
 }
 
 function compoundFilter(arr) {
