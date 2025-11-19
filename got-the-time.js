@@ -86,4 +86,3 @@ function printPrettyDate(date) {
         seconds + " " +
         zone + ".");
 }
-printPrettyDate(new Date());
