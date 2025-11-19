@@ -81,4 +81,3 @@ function printPrettyDate(date) {
         date.getSeconds() + " " +
         zone + ".";
 }
-console.log(printPrettyDate(new Date()));
