@@ -3,13 +3,13 @@ function classifyDate(dateString) {
     if(dateString > (currentDate.getFullYear() - 1) && dateString <= currentDate) {
         return "past"
     }
-    if(dateString < currentDate.getFullYear() - 1 - (currentDate.getMilliseconds() - 0.001)) {
+    if(dateString < currentDate.getFullYear() - 1) {
         return "history"
     }
-    if(dateString < currentDate.getMilliseconds() + 0.001 && dateString < currentDate.getFullYear() + 1) {
+    if(dateString > currentDate && dateString < currentDate.getFullYear() + 1) {
         return "future"
     }
-    else {
+    if(dateString > currentDate.getFullYear() + 1) {
         return "distant future"
     }
 }
