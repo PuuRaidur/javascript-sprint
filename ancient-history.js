@@ -1,6 +1,6 @@
 function classifyDate(dateString) {
     const currentDate = new Date();
-    const diff = dateString - currentDate
+    const diff = dateString.getTime() - currentDate.getTime();
     if(diff < 0) {
         return "past"
     }
