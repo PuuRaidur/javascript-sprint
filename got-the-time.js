@@ -67,7 +67,7 @@ function printPrettyDate(date) {
         zone = "AM";
     }
     else {
-        hour = date.getHours() - 12;
+        hour = '0' + date.getHours() - 12;
         zone = "PM";
     }
     console.log("Today is " +
