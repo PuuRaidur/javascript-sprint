@@ -8,7 +8,7 @@ function filterObjectsByNameLength(obj, length) {
 
 function compoundFilter(arr) {
     return arr.filter(arr => {
-        arr.code > 5,
+        arr.code.length > 5,
         !arr.category.includes("special"),
         arr.price > 50,
         arr.location !== "Underground"
