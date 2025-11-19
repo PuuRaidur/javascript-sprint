@@ -2,15 +2,15 @@ function filterOutOddNumbers(arr) {
     return arr.filter(num => num % 2 === 0);
 }
 
-function filterObjectsByNameLength(obj, length) {
-    return obj.filter(obj => obj.name.length >= length);
+function filterObjectsByNameLength(arr, length) {
+    return arr.filter(obj => obj.name.length < length);
 }
 
 function compoundFilter(arr) {
-    return arr.filter(arr => {
-        arr.code.length >= 5,
-        !arr.category.includes("special"),
-        arr.price > 50,
-        arr.location !== "Underground"
-    })
+    return arr.filter(item =>
+        item.code.length > 5 &&
+        !item.category.includes("special") &&
+        item.price > 50 &&
+        item.location !== "Underground"
+    )
 }
