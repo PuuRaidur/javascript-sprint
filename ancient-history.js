@@ -4,7 +4,7 @@ function classifyDate(dateString) {
         return "past"
     }
     if(dateString < currentDate.getFullYear() - 1) {
-        return "history"
+        return "ancient"
     }
     if(dateString > currentDate && dateString < currentDate.getFullYear() + 1) {
         return "future"
