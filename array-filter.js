@@ -6,11 +6,11 @@ function filterObjectsByNameLength(obj, length) {
     return obj.filter(obj => obj.name.length > length);
 }
 
-function compundFilter(arr) {
+function compoundFilter(arr) {
     return arr.filter(arr => {
-        arr.code > 5
-        && !arr.category.contains("special")
-        && arr.price > 50
-        && arr.location !== "Underground"
+        arr.code > 5,
+        !arr.category.contains("special"),
+        arr.price > 50,
+        arr.location !== "Underground"
     })
 }
