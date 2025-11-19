@@ -1,6 +1,6 @@
 function printPrettyDate(date) {
     const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-    let day = '';
+    let day = "";
     if(date.getDay() === 1) {
         day = days[0];
     }
@@ -23,7 +23,7 @@ function printPrettyDate(date) {
         day = days[6];
     }
     const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    let month = '';
+    let month = "";
     if(date.getMonth() === 0) {
         month = months[0];
     }
@@ -64,11 +64,11 @@ function printPrettyDate(date) {
     let zone = ''
     if(date.getHours() < 12) {
         hour = date.getHours();
-        zone = 'AM';
+        zone = "AM";
     }
     else {
         hour = date.getHours() - 12;
-        zone = 'PM';
+        zone = "PM";
     }
     console.log("Today is " +
         day + ", " +
