@@ -70,7 +70,7 @@ function printPrettyDate(date) {
         hour = date.getHours() - 12;
         zone = 'PM';
     }
-    return "Today is " +
+    console.log("Today is " +
         day + ", " +
         month + " " +
         date.getDate() + ", " +
@@ -79,5 +79,5 @@ function printPrettyDate(date) {
         hour + ":" +
         date.getMinutes() + ":" +
         date.getSeconds() + " " +
-        zone + ".";
+        zone + ".");
 }
