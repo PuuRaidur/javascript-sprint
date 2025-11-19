@@ -1,16 +1,12 @@
 function classifyDate(dateString) {
-    const currentDate = new Date();
-    const diff = dateString.getTime() - currentDate.getTime();
-    if(diff < 0) {
-        return "past"
-    }
-    else if(diff < -1000 * 60 * 60 * 24 * 365 * 100) {
-        return "ancient"
-    }
-    else if(diff <= 1000 * 60 * 60 * 24 * 365 * 100) {
-        return "future"
-    }
-    else {
-        return "distant future"
+    const currentDate = Date.now();
+    const msInYear = 365.25 * 24 * 60 * 60 * 1000;
+    const diff = dateString - currentDate;
+
+    if (diff <= 0) {
+        const age = currentDate - dateString;
+        return age > msInYear ? 'ancient' : 'past';
+    } else {
+        return diff > msInYear ? 'distant future' : 'future';
     }
 }
