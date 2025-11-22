@@ -15,7 +15,4 @@ class Rectangle {
 
 const rectangle = new Rectangle(5, 3);
 
-// export the class as the module value (default) and also attach named exports
-module.exports = Rectangle;
-module.exports.Rectangle = Rectangle;
-module.exports.rectangle = rectangle;
+module.exports = { Rectangle, rectangle };
