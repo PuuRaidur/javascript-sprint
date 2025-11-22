@@ -15,4 +15,5 @@ class Rectangle {
 
 const rectangle = new Rectangle(5, 3);
 
-module.exports = { Rectangle, rectangle };
+module.exports = Rectangle;
+module.exports.rectangle = rectangle;
