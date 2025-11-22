@@ -1,4 +1,5 @@
-const { Rectangle } = require('./rectangle');
+const RectangleModule = require('./rectangle.js');
+const Rectangle = RectangleModule.Rectangle;
 
 const rectangle = new Rectangle(5, 3);
 
