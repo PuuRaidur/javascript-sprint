@@ -1,4 +1,6 @@
-const Rectangle = require('./rectangle');
+const { Rectangle } = require('./rectangle.js');
+
+const rectangle = new Rectangle(5, 3);
 
 class Square extends Rectangle {
   constructor(side) {
@@ -9,4 +11,4 @@ class Square extends Rectangle {
 
 const square = new Square(4);
 
-module.exports = { Square, square };
+module.exports = { Square, square, rectangle };
