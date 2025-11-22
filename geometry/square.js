@@ -1,6 +1,5 @@
-const { Rectangle } = require('./rectangle.js');
-
-const rectangle = new Rectangle(5, 3);
+const rectModule = require('./rectangle.js');
+const Rectangle = (rectModule && (rectModule.Rectangle || rectModule.default)) || rectModule;
 
 class Square extends Rectangle {
   constructor(side) {
@@ -9,6 +8,4 @@ class Square extends Rectangle {
   }
 }
 
-const square = new Square(4);
-
-module.exports = { Square, square, rectangle };
+module.exports = { Square };
