@@ -1,3 +1,5 @@
+const { Rectangle } = require('./rectangle');
+
 class Triangle {
   constructor(sideA, sideB, sideC) {
     this.sideA = sideA;
