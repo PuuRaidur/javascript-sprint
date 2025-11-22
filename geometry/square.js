@@ -1,4 +1,5 @@
-const { Rectangle } = require('./rectangle.js');
+const rectModule = require('./rectangle.js');
+const Rectangle = (rectModule && (rectModule.Rectangle || rectModule.default)) || rectModule;
 
 class Square extends Rectangle {
   constructor(side) {
