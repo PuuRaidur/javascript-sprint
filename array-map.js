@@ -3,7 +3,9 @@ function convert2DArrayToObjectArray(array2D) {
 }
 
 function convertArrayOfObjectsToStrings(objArray) {
-    return objArray.map(person => "Name: " + person.name + ", Age: " + person.age + ", City: " + person.city);
+    return objArray.map(obj => {
+        return Object.keys(obj).map(key => `${key}: ${obj[key]}`).join(", ");
+    });
 }
 
 function concatenateStrings(strArray, maxLength) {
