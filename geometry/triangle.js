@@ -1,5 +1,3 @@
-const { Rectangle } = require('./rectangle');
-
 class Triangle {
   constructor(sideA, sideB, sideC) {
     this.sideA = sideA;
@@ -18,3 +16,5 @@ class Triangle {
 }
 
 const triangle = new Triangle(3, 4, 5);
+
+module.exports = { Triangle, triangle };

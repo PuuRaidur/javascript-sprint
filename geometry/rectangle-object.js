@@ -8,3 +8,5 @@ const rectObj = {
     return 2 * (this.width + this.height);
   },
 };
+
+module.exports = { rectObj };
