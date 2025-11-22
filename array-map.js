@@ -4,7 +4,10 @@ function convert2DArrayToObjectArray(array2D) {
 
 function convertArrayOfObjectsToStrings(objArray) {
     return objArray.map(obj => {
-        return Object.keys(obj).map(key => `${key}: ${obj[key]}`).join(", ");
+        return Object.keys(obj).map(key => {
+            const capitalizedKey = key.charAt(0).toUpperCase() + key.slice(1);
+            return `${capitalizedKey}: ${obj[key]}`;
+        }).join(", ");
     });
 }
 
