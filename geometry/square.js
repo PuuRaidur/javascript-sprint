@@ -10,4 +10,7 @@ class Square extends Rectangle {
 
 const square = new Square(4);
 
-module.exports = { Square, square };
+// export the class as the module value (default) and also attach named exports
+module.exports = Square;
+module.exports.Square = Square;
+module.exports.square = square;
