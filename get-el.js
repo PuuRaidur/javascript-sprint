@@ -1,5 +1,5 @@
 function getElementByTag(tagName) {
-    return document.querySelectorAll(tagName);
+    return document.getElementsByName(tagName);
 }
 
 function getElementsByClassName(className) {
