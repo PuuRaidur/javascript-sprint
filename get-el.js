@@ -1,19 +1,21 @@
-function getElementByTag(tagName) {
-    return document.getElementsByTagName(tagName);
+function getElementsByTag(tagName) {
+    return document.querySelectorAll(tagName);
 }
 
 function getElementsByClassName(className) {
-    return document.getElementsByClassName(className);
+    return document.querySelectorAll(`.${className}`);
 }
 
 function getElementById(id) {
     return document.getElementById(id) || undefined;
 }
 
-function getElementByAttribute(attrName, attrValue) {
-    if (attrValue) {
-        return document.querySelectorAll(`[${attrName}="${attrValue}"]`);
+function getElementsByAttribute(attrName, attrValue) {
+    if (arguments.length === 1) {
+        // Match any element that has the attribute, regardless of value
+        return document.querySelectorAll(`[${CSS.escape(attrName)}]`);
     } else {
-        return document.querySelectorAll(`[${attrName}]`);
+        // Match elements where the attribute equals the given value
+        return document.querySelectorAll(`[${CSS.escape(attrName)}="${CSS.escape(attrValue)}"]`);
     }
 }
