@@ -11,11 +11,11 @@ function getElementById(id) {
 }
 
 function getElementsByAttribute(attrName, attrValue) {
-    if (arguments.length === 1) {
-        // Match any element that has the attribute, regardless of value
+    if (attrValue === undefined) {
+        // Match elements that have the attribute (regardless of value)
         return document.querySelectorAll(`[${CSS.escape(attrName)}]`);
     } else {
-        // Match elements where the attribute equals the given value
+        // Match elements with the specific attribute=value
         return document.querySelectorAll(`[${CSS.escape(attrName)}="${CSS.escape(attrValue)}"]`);
     }
 }
