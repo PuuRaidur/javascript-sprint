@@ -1,9 +1,9 @@
 function getElementsByTag(tagName) {
-    return document.querySelectorAll(tagName);
+    return document.getElementsByTagName(tagName);
 }
 
 function getElementsByClassName(className) {
-    return document.querySelectorAll(`.${className}`);
+    return document.getElementsByClassName(className);
 }
 
 function getElementById(id) {
