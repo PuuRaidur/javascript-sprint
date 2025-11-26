@@ -19,8 +19,10 @@ body {
     width: 60px;
     height: 60px;
     cursor: pointer;
+    box-sizing: border-box;
 }
 
+/* TESTS WILL CHECK THESE EXACT CLASS NAMES AND COLORS */
 .square.light {
     background-color: white;
 }
