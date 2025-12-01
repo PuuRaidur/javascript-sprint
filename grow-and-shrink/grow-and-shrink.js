@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function getCurrentSize() {
         const fontSize = letters[currentIndex].style.fontSize;
-        return parseInt(fontSize) || 14;
+        return Math.round(parseFloat(fontSize)) || 14;
     }
 
     function selectNext() {
@@ -65,16 +65,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function decreaseSize() {
-        const currentSize = getCurrentSize();
+        let currentSize = getCurrentSize();
         if (currentSize > 10) {
-            letters[currentIndex].style.fontSize = (currentSize - 2) + 'px';
+            currentSize = Math.max(10, currentSize - 2);
+            letters[currentIndex].style.fontSize = currentSize + 'px';
         }
     }
 
     function increaseSize() {
-        const currentSize = getCurrentSize();
+        let currentSize = getCurrentSize();
         if (currentSize < 26) {
-            letters[currentIndex].style.fontSize = (currentSize + 2) + 'px';
+            currentSize = Math.min(26, currentSize + 2);
+            letters[currentIndex].style.fontSize = currentSize + 'px';
         }
     }
 
