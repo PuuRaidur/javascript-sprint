@@ -15,12 +15,13 @@ document.addEventListener("DOMContentLoaded", () => {
     app.append(outside, inside);
 
     let currentChar = null;
+    let trapped = false;
     let lastMouseX = 0;
     let lastMouseY = 0;
 
     function spawnChar(letter, x, y) {
         const div = document.createElement("div");
-        div.classList.add("character", "follow");
+        div.classList.add("character");
         div.textContent = letter;
         app.appendChild(div);
         center(div, x, y);
@@ -30,35 +31,39 @@ document.addEventListener("DOMContentLoaded", () => {
     function isInJail(x) {
         return x >= window.innerWidth / 2;
     }
+
     window.addEventListener("mousemove", (e) => {
         lastMouseX = e.clientX;
         lastMouseY = e.clientY;
-
         if (!currentChar) return;
 
         const targetX = e.clientX;
         const targetY = e.clientY;
 
-        center(currentChar, targetX, targetY);
-
-        const rect = currentChar.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-
-        if (isInJail(centerX)) {
-            currentChar.classList.add("trapped");
-        } else {
-            currentChar.classList.remove("trapped");
-
-            if (currentChar.classList.contains("trapped")) {
+        if (trapped) {
+            if (!isInJail(targetX)) {
                 currentChar.classList.remove("follow");
                 currentChar = null;
+                trapped = false;
+                return;
             }
+            center(currentChar, targetX, targetY);
+            return;
+        }
+
+        center(currentChar, targetX, targetY);
+
+        if (isInJail(targetX)) {
+            currentChar.classList.add("trapped", "follow");
+            trapped = true;
         }
     });
+
     window.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
             document.querySelectorAll(".character").forEach(c => c.remove());
             currentChar = null;
+            trapped = false;
             return;
         }
 
@@ -69,9 +74,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         currentChar = spawnChar(e.key, lastMouseX, lastMouseY);
+        currentChar.classList.add("follow");
+        trapped = false;
 
         if (isInJail(lastMouseX)) {
             currentChar.classList.add("trapped");
+            trapped = true;
         }
     });
 });
