@@ -1,20 +1,39 @@
+const outside = document.createElement('div');
+outside.classList.add('zone', 'outside');
+document.body.appendChild(outside);
+
+const inside = document.createElement('div');
+inside.classList.add('zone', 'inside');
+document.body.appendChild(inside);
+
+let activeCharacter = null;
+let lastMousePos = { x: 0, y: 0 };
+
+function updateDomPosition(element, x, y) {
+    // center the character on the pointer (character is 40x40)
+    element.style.left = `${x - 20}px`;
+    element.style.top = `${y - 20}px`;
+}
+
 document.addEventListener('mousemove', (e) => {
     lastMousePos = { x: e.clientX, y: e.clientY };
     if (!activeCharacter || !activeCharacter.isFollowing) return;
 
     const jailRect = inside.getBoundingClientRect();
-    // add 20px offset to match test expectations
-    const isInsideJail = lastMousePos.x >= jailRect.left + 20;
+    const isInsideJail = lastMousePos.x >= jailRect.left;
 
     if (activeCharacter.isTrapped) {
-        if (!isInsideJail) return;
-
-        updateDomPosition(activeCharacter.element, lastMousePos.x - 20, lastMousePos.y);
+        // trapped characters follow pointer only inside jail
+        if (isInsideJail) {
+            updateDomPosition(activeCharacter.element, lastMousePos.x, lastMousePos.y);
+        }
         return;
     }
 
-    updateDomPosition(activeCharacter.element, lastMousePos.x - 20, lastMousePos.y);
+    // following outside, update position
+    updateDomPosition(activeCharacter.element, lastMousePos.x, lastMousePos.y);
 
+    // trigger trap if pointer entered jail
     if (isInsideJail) {
         activeCharacter.isTrapped = true;
         activeCharacter.element.classList.add('trapped');
@@ -30,21 +49,28 @@ document.addEventListener('keydown', (e) => {
 
     if (!/^[a-z]$/.test(e.key)) return;
 
+    // detach previous character
     if (activeCharacter) {
         activeCharacter.isFollowing = false;
         activeCharacter.element.classList.remove('follow');
+
+        const charRect = activeCharacter.element.getBoundingClientRect();
+        const jailRect = inside.getBoundingClientRect();
+        // snap to edge if inside jail
+        if (charRect.right > jailRect.left) {
+            activeCharacter.element.style.left = `${jailRect.left - 40}px`; // 40px = width
+        }
     }
 
+    // spawn new character
     const charDiv = document.createElement('div');
     charDiv.classList.add('character', 'follow');
     charDiv.textContent = e.key;
-
-    // adjust initial position by 20px to align with tests
-    updateDomPosition(charDiv, lastMousePos.x - 20, lastMousePos.y);
+    updateDomPosition(charDiv, lastMousePos.x, lastMousePos.y);
     document.body.appendChild(charDiv);
 
     const jailRect = inside.getBoundingClientRect();
-    const bornInJail = lastMousePos.x >= jailRect.left + 20; // offset here too
+    const bornInJail = lastMousePos.x >= jailRect.left;
 
     if (bornInJail) {
         charDiv.classList.add('trapped');
