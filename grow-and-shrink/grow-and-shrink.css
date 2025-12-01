@@ -32,6 +32,11 @@ body {
     background-color: #f0f0f0;
 }
 
+.letter.selected {
+    background-color: #e0e0e0;
+    border-color: #999;
+}
+
 .button-container {
     display: flex;
     gap: 12px;
