@@ -1,85 +1,51 @@
-function center(div, x, y) {
-    const r = div.getBoundingClientRect();
-    div.style.left = x - r.width / 2 + "px";
-    div.style.top = y - r.height / 2 + "px";
-}
+const outside = document.querySelector('.outside');
+const inside = document.querySelector('.inside');
 
-document.addEventListener("DOMContentLoaded", () => {
-    const app = document.getElementById("app");
+let activeCharacter = null;
 
-    const outside = document.createElement("div");
-    outside.classList.add("zone", "outside");
-    const inside = document.createElement("div");
-    inside.classList.add("zone", "inside");
-
-    app.append(outside, inside);
-
-    let currentChar = null;
-    let trapped = false;
-    let lastMouseX = 0;
-    let lastMouseY = 0;
-
-    function spawnChar(letter, x, y) {
-        const div = document.createElement("div");
-        div.classList.add("character");
-        div.textContent = letter;
-        app.appendChild(div);
-        center(div, x, y);
-        return div;
+document.addEventListener('keydown', (e) => {
+    if (e.key.match(/^[a-z]$/)) {
+        if (activeCharacter) {
+            activeCharacter.classList.remove('follow');
+        }
+        const charDiv = document.createElement('div');
+        charDiv.textContent = e.key;
+        charDiv.classList.add('character', 'follow');
+        document.body.appendChild(charDiv);
+        activeCharacter = charDiv;
+    } else if (e.key === 'Escape') {
+        const characters = document.querySelectorAll('.character');
+        characters.forEach(char => char.remove());
+        activeCharacter = null;
     }
+});
 
-    function isInJail(x) {
-        return x >= window.innerWidth / 2;
-    }
+document.addEventListener('mousemove', (e) => {
+    if (activeCharacter) {
+        activeCharacter.style.left = `${e.clientX - activeCharacter.offsetWidth / 2}px`;
+        activeCharacter.style.top = `${e.clientY - activeCharacter.offsetHeight / 2}px`;
 
-    window.addEventListener("mousemove", (e) => {
-        lastMouseX = e.clientX;
-        lastMouseY = e.clientY;
-        if (!currentChar) return;
+        const jailRect = inside.getBoundingClientRect();
+        const inJail = e.clientX >= jailRect.left && e.clientX <= jailRect.right &&
+                     e.clientY >= jailRect.top && e.clientY <= jailRect.bottom;
 
-        const targetX = e.clientX;
-        const targetY = e.clientY;
+        if (inJail) {
+            activeCharacter.classList.add('trapped');
+        } else {
+            if (activeCharacter.classList.contains('trapped')) {
+                activeCharacter.classList.remove('follow');
 
-        if (trapped) {
-            if (!isInJail(targetX)) {
-                currentChar.classList.remove("follow");
-                currentChar = null;
-                trapped = false;
-                return;
+                let finalX = e.clientX;
+                let finalY = e.clientY;
+
+                finalX = Math.max(jailRect.left, Math.min(finalX, jailRect.right));
+                finalY = Math.max(jailRect.top, Math.min(finalY, jailRect.bottom));
+
+                activeCharacter.style.left = `${finalX - activeCharacter.offsetWidth / 2}px`;
+                activeCharacter.style.top = `${finalY - activeCharacter.offsetHeight / 2}px`;
+
+                activeCharacter = null;
             }
-            center(currentChar, targetX, targetY);
-            return;
         }
-
-        center(currentChar, targetX, targetY);
-
-        if (isInJail(targetX)) {
-            currentChar.classList.add("trapped", "follow");
-            trapped = true;
-        }
-    });
-
-    window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-            document.querySelectorAll(".character").forEach(c => c.remove());
-            currentChar = null;
-            trapped = false;
-            return;
-        }
-
-        if (!/^[a-z]$/.test(e.key)) return;
-
-        if (currentChar) {
-            currentChar.classList.remove("follow");
-        }
-
-        currentChar = spawnChar(e.key, lastMouseX, lastMouseY);
-        currentChar.classList.add("follow");
-        trapped = false;
-
-        if (isInJail(lastMouseX)) {
-            currentChar.classList.add("trapped");
-            trapped = true;
-        }
-    });
+    }
 });
