@@ -1,3 +1,9 @@
+function center(div, x, y) {
+    const r = div.getBoundingClientRect();
+    div.style.left = x - r.width / 2 + "px";
+    div.style.top = y - r.height / 2 + "px";
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const app = document.getElementById("app");
 
@@ -15,14 +21,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const div = document.createElement("div");
         div.classList.add("character", "follow");
         div.textContent = letter;
-        div.style.left = x + "px";
+        center(div, x, y) // replaced";
         div.style.top = y + "px";
         app.appendChild(div);
         return div;
     }
 
     function isInJail(x) {
-        return x > window.innerWidth / 2;
+        return x >= window.innerWidth / 2;
     }
 
     window.addEventListener("mousemove", (e) => {
@@ -35,7 +41,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!isInJail(x)) return;
         }
 
-        currentChar.style.left = x + "px";
+        center(currentChar, x, y)";
         currentChar.style.top = y + "px";
 
         if (isInJail(x) && !trapped) {
