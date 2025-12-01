@@ -21,9 +21,11 @@ document.addEventListener('mousemove', (e) => {
     const jailRect = inside.getBoundingClientRect();
     const isInsideJail = lastMousePos.x >= jailRect.left;
 
-    if (!activeCharacter.isTrapped && isInsideJail) {
-        activeCharacter.isTrapped = true;
-        activeCharacter.element.classList.add('trapped');
+    if (activeCharacter.isTrapped) {
+        if (isInsideJail) {
+            updateDomPosition(activeCharacter.element, lastMousePos.x, lastMousePos.y);
+        }
+        return;
     }
 
     updateDomPosition(activeCharacter.element, lastMousePos.x, lastMousePos.y);
@@ -31,6 +33,9 @@ document.addEventListener('mousemove', (e) => {
     if (isInsideJail) {
         activeCharacter.isTrapped = true;
         activeCharacter.element.classList.add('trapped');
+    } else {
+        activeCharacter.isFollowing = false;
+        activeCharacter.element.classList.remove('follow');
     }
 });
 
@@ -49,6 +54,7 @@ document.addEventListener('keydown', (e) => {
 
         const charRect = activeCharacter.element.getBoundingClientRect();
         const jailRect = inside.getBoundingClientRect();
+        // snap to edge if inside jail
         if (charRect.right > jailRect.left) {
             activeCharacter.element.style.left = `${jailRect.left - 40}px`;
         }
