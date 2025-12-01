@@ -15,7 +15,6 @@ document.addEventListener("DOMContentLoaded", () => {
     app.append(outside, inside);
 
     let currentChar = null;
-    let trapped = false;
     let lastMouseX = 0;
     let lastMouseY = 0;
 
@@ -31,60 +30,35 @@ document.addEventListener("DOMContentLoaded", () => {
     function isInJail(x) {
         return x >= window.innerWidth / 2;
     }
-
     window.addEventListener("mousemove", (e) => {
         lastMouseX = e.clientX;
         lastMouseY = e.clientY;
 
         if (!currentChar) return;
 
-        let x = e.clientX;
-        let y = e.clientY;
+        const targetX = e.clientX;
+        const targetY = e.clientY;
 
-        if (trapped) {
-            const beforeRect = currentChar.getBoundingClientRect();
-            const beforeCenterX = beforeRect.left + beforeRect.width / 2;
-            if (!isInJail(beforeCenterX)) {
-                currentChar.remove();
-                currentChar = null;
-                trapped = false;
-                return;
-            }
+        center(currentChar, targetX, targetY);
 
-            if (!isInJail(x)) {
-                currentChar.classList.remove("follow");
-                currentChar = null;
-                trapped = false;
-                return;
-            }
+        const rect = currentChar.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
 
-            center(currentChar, x, y);
-
-            const afterRect = currentChar.getBoundingClientRect();
-            const afterCenterX = afterRect.left + afterRect.width / 2;
-            if (!isInJail(afterCenterX)) {
-                currentChar.classList.remove("follow");
-                currentChar.remove();
-                currentChar = null;
-                trapped = false;
-            }
-            return;
-        }
-
-        center(currentChar, x, y);
-
-        if (isInJail(x)) {
+        if (isInJail(centerX)) {
             currentChar.classList.add("trapped");
-            currentChar.classList.remove("follow");  // Critical!
-            trapped = true;
+        } else {
+            currentChar.classList.remove("trapped");
+
+            if (currentChar.classList.contains("trapped")) {
+                currentChar.classList.remove("follow");
+                currentChar = null;
+            }
         }
     });
-
     window.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
-            document.querySelectorAll(".character").forEach((c) => c.remove());
+            document.querySelectorAll(".character").forEach(c => c.remove());
             currentChar = null;
-            trapped = false;
             return;
         }
 
@@ -94,13 +68,10 @@ document.addEventListener("DOMContentLoaded", () => {
             currentChar.classList.remove("follow");
         }
 
-        trapped = false;
         currentChar = spawnChar(e.key, lastMouseX, lastMouseY);
 
         if (isInJail(lastMouseX)) {
             currentChar.classList.add("trapped");
-            currentChar.classList.remove("follow");  // Critical!
-            trapped = true;
         }
     });
 });
