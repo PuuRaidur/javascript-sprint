@@ -49,8 +49,8 @@ document.addEventListener('DOMContentLoaded', () => {
         letters[currentIndex].style.fontWeight = 'bold';
     }
 
-    function getCurrentSize() {
-        return parseInt(letters[currentIndex].style.fontSize) || 14;
+    function getFontSize(letter) {
+        return Math.round(parseFloat(window.getComputedStyle(letter).fontSize));
     }
 
     function selectNext() {
@@ -64,17 +64,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function decreaseSize() {
-        const currentSize = parseInt(letters[currentIndex].style.fontSize) || 14;
-        if (currentSize > 10) {
-            letters[currentIndex].style.fontSize = (currentSize - 2) + 'px';
-        }
+        const size = getFontSize(letters[currentIndex]);
+        letters[currentIndex].style.fontSize = (size - 2) + 'px';
     }
 
     function increaseSize() {
-        const currentSize = parseInt(letters[currentIndex].style.fontSize) || 14;
-        if (currentSize < 26) {
-            letters[currentIndex].style.fontSize = (currentSize + 2) + 'px';
-        }
+        const size = getFontSize(letters[currentIndex]);
+        letters[currentIndex].style.fontSize = (size + 2) + 'px';
     }
 
     prevBtn.addEventListener('click', selectPrev);
