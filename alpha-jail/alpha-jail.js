@@ -1,74 +1,105 @@
 const outside = document.createElement('div');
 outside.classList.add('zone', 'outside');
-document.body.appendChild(outside);
 
 const inside = document.createElement('div');
 inside.classList.add('zone', 'inside');
+
+document.body.appendChild(outside);
 document.body.appendChild(inside);
 
-let activeCharacter = null;
-let lastMousePos = { x: 0, y: 0 };
-
-function updateDomPosition(element, x, y) {
-    element.style.left = `${x - 20}px`;
-    element.style.top = `${y - 20}px`;
-}
-
+let mouseX = 0, mouseY = 0;
+let currentChar = null;
+let inJail = false;
 document.addEventListener('mousemove', (e) => {
-    lastMousePos = { x: e.clientX, y: e.clientY };
-    if (!activeCharacter || !activeCharacter.isFollowing) return;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+
+    if (!currentChar || !currentChar.classList.contains('follow')) return;
 
     const jailRect = inside.getBoundingClientRect();
-    const isInsideJail = lastMousePos.x >= jailRect.left;
+    const rect = currentChar.getBoundingClientRect();
+    const halfWidth = rect.width / 2;
+    const halfHeight = rect.height / 2;
 
-    if (activeCharacter.isTrapped) {
-        if (isInsideJail) {
-            updateDomPosition(activeCharacter.element, lastMousePos.x, lastMousePos.y);
-        }
-        return;
-    }
+    const minX = jailRect.left + halfWidth;
+    const maxX = jailRect.right - halfWidth;
+    const minY = jailRect.top + halfHeight;
+    const maxY = jailRect.bottom - halfHeight;
 
-    updateDomPosition(activeCharacter.element, lastMousePos.x, lastMousePos.y);
+    const pointerInJail =
+        mouseX >= minX &&
+        mouseX <= maxX &&
+        mouseY >= minY &&
+        mouseY <= maxY;
 
-    if (isInsideJail) {
-        activeCharacter.isTrapped = true;
-        activeCharacter.element.classList.add('trapped');
+    if (pointerInJail) {
+        currentChar.classList.add('trapped');
+        currentChar.style.left = `${mouseX}px`;
+        currentChar.style.top = `${mouseY}px`;
+        inJail = true;
     } else {
-        activeCharacter.isFollowing = false;
-        activeCharacter.element.classList.remove('follow');
+        if (inJail) {
+            document.querySelectorAll('.character.follow.trapped').forEach(char => {
+                char.classList.remove('follow');
+            });
+
+            const clampedX = Math.min(Math.max(mouseX, minX), maxX);
+            const clampedY = Math.min(Math.max(mouseY, minY), maxY);
+
+            currentChar.style.left = `${clampedX}px`;
+            currentChar.style.top = `${clampedY}px`;
+
+            currentChar = null;
+        } else {
+            currentChar.style.left = `${mouseX}px`;
+            currentChar.style.top = `${mouseY}px`;
+        }
+        inJail = false;
     }
 });
-
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        document.querySelectorAll('.character').forEach(c => c.remove());
-        activeCharacter = null;
+    const key = e.key;
+
+    if (key === 'Escape') {
+        document.querySelectorAll('.character').forEach(el => el.remove());
+        currentChar = null;
         return;
     }
 
-    if (!/^[a-z]$/.test(e.key)) return;
+    if (key.length === 1 && key.match(/^[a-z]$/)) {
+        if (currentChar) {
+            currentChar.classList.remove('follow');
+        }
 
-    if (activeCharacter) {
-        activeCharacter.isFollowing = false;
-        activeCharacter.element.classList.remove('follow');
+        const charDiv = document.createElement('div');
+        charDiv.classList.add('character', 'follow');
+        charDiv.textContent = key;
+        charDiv.style.left = `${mouseX}px`;
+        charDiv.style.top = `${mouseY}px`;
 
-        const charRect = activeCharacter.element.getBoundingClientRect();
+        document.body.appendChild(charDiv);
+        currentChar = charDiv;
+
         const jailRect = inside.getBoundingClientRect();
-        // snap to edge if inside jail
-        if (charRect.right > jailRect.left) {
-            activeCharacter.element.style.left = `${jailRect.left - 40}px`;
+        const rect = charDiv.getBoundingClientRect();
+        const halfWidth = rect.width / 2;
+        const halfHeight = rect.height / 2;
+        const minX = jailRect.left + halfWidth;
+        const maxX = jailRect.right - halfWidth;
+        const minY = jailRect.top + halfHeight;
+        const maxY = jailRect.bottom - halfHeight;
+
+        const pointerInJail =
+            mouseX >= minX &&
+            mouseX <= maxX &&
+            mouseY >= minY &&
+            mouseY <= maxY;
+
+        if (pointerInJail) {
+            currentChar.classList.add('trapped');
+            inJail = true;
+        } else {
+            inJail = false;
         }
     }
-
-    const charDiv = document.createElement('div');
-    charDiv.classList.add('character', 'follow');
-    charDiv.textContent = e.key;
-    updateDomPosition(charDiv, lastMousePos.x, lastMousePos.y);
-    document.body.appendChild(charDiv);
-
-    activeCharacter = {
-        element: charDiv,
-        isFollowing: true,
-        isTrapped: false // start as not trapped
-    };
 });
