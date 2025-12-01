@@ -5,9 +5,10 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < 26; i++) {
         const letter = String.fromCharCode(65 + i);
         const letterDiv = document.createElement('div');
-        letterDiv.className = i === 0 ? 'letter selected' : 'letter';
+        letterDiv.className = 'letter';
         letterDiv.id = letter.toLowerCase();
         letterDiv.textContent = letter;
+        letterDiv.style.fontSize = '14px'; // Default font size
         letterContainer.appendChild(letterDiv);
     }
 
@@ -38,14 +39,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const decreaseBtn = document.getElementById('decrease');
     const increaseBtn = document.getElementById('increase');
 
-    function updateLetterStyles() {
-        letters.forEach((letter, index) => {
-            if (index === currentIndex) {
-                letter.style.fontWeight = 'bold';
-            } else {
-                letter.style.fontWeight = 'normal';
-            }
+    function updateSelectedLetter() {
+        letters.forEach(letter => {
+            letter.classList.remove('selected');
+            letter.style.fontWeight = 'normal';
         });
+
+        letters[currentIndex].classList.add('selected');
+        letters[currentIndex].style.fontWeight = 'bold';
     }
 
     function getCurrentSize() {
@@ -54,12 +55,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function selectNext() {
         currentIndex = (currentIndex + 1) % 26;
-        updateLetterStyles();
+        updateSelectedLetter();
     }
 
     function selectPrev() {
         currentIndex = (currentIndex - 1 + 26) % 26;
-        updateLetterStyles();
+        updateSelectedLetter();
     }
 
     function decreaseSize() {
@@ -84,9 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
     letters.forEach((letter, index) => {
         letter.addEventListener('click', () => {
             currentIndex = index;
-            updateLetterStyles();
+            updateSelectedLetter();
         });
     });
 
-    letters[0].style.fontSize = '14px';
+    updateSelectedLetter();
 });
