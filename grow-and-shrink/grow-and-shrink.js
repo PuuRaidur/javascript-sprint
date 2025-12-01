@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
         letterDiv.className = 'letter';
         letterDiv.id = letter.toLowerCase();
         letterDiv.textContent = letter;
-        letterDiv.style.fontSize = '14px'; // Default font size
+        letterDiv.style.fontSize = '14px'; // This is fine
         letterContainer.appendChild(letterDiv);
     }
 
@@ -50,8 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getCurrentSize() {
-        const fontSize = letters[currentIndex].style.fontSize;
-        return Math.round(parseFloat(fontSize)) || 14;
+        return parseInt(letters[currentIndex].style.fontSize) || 14;
     }
 
     function selectNext() {
@@ -65,18 +64,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function decreaseSize() {
-        let currentSize = getCurrentSize();
+        const currentSize = parseInt(letters[currentIndex].style.fontSize) || 14;
         if (currentSize > 10) {
-            currentSize = Math.max(10, currentSize - 2);
-            letters[currentIndex].style.fontSize = currentSize + 'px';
+            letters[currentIndex].style.fontSize = (currentSize - 2) + 'px';
         }
     }
 
     function increaseSize() {
-        let currentSize = getCurrentSize();
+        const currentSize = parseInt(letters[currentIndex].style.fontSize) || 14;
         if (currentSize < 26) {
-            currentSize = Math.min(26, currentSize + 2);
-            letters[currentIndex].style.fontSize = currentSize + 'px';
+            letters[currentIndex].style.fontSize = (currentSize + 2) + 'px';
         }
     }
 
