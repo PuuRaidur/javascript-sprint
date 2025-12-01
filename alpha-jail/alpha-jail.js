@@ -21,11 +21,9 @@ document.addEventListener('mousemove', (e) => {
     const jailRect = inside.getBoundingClientRect();
     const isInsideJail = lastMousePos.x >= jailRect.left;
 
-    if (activeCharacter.isTrapped) {
-        if (isInsideJail) {
-            updateDomPosition(activeCharacter.element, lastMousePos.x, lastMousePos.y);
-        }
-        return;
+    if (!activeCharacter.isTrapped && isInsideJail) {
+        activeCharacter.isTrapped = true;
+        activeCharacter.element.classList.add('trapped');
     }
 
     updateDomPosition(activeCharacter.element, lastMousePos.x, lastMousePos.y);
@@ -52,7 +50,7 @@ document.addEventListener('keydown', (e) => {
         const charRect = activeCharacter.element.getBoundingClientRect();
         const jailRect = inside.getBoundingClientRect();
         if (charRect.right > jailRect.left) {
-            activeCharacter.element.style.left = `${jailRect.left - 40}px`; // 40px = width
+            activeCharacter.element.style.left = `${jailRect.left - 40}px`;
         }
     }
 
@@ -62,16 +60,9 @@ document.addEventListener('keydown', (e) => {
     updateDomPosition(charDiv, lastMousePos.x, lastMousePos.y);
     document.body.appendChild(charDiv);
 
-    const jailRect = inside.getBoundingClientRect();
-    const bornInJail = lastMousePos.x >= jailRect.left;
-
-    if (bornInJail) {
-        charDiv.classList.add('trapped');
-    }
-
     activeCharacter = {
         element: charDiv,
         isFollowing: true,
-        isTrapped: bornInJail
+        isTrapped: false // start as not trapped
     };
 });
