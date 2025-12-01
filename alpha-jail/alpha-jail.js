@@ -18,7 +18,8 @@ document.addEventListener('mousemove', (e) => {
         activeCharacter.style.top = `${lastMousePos.y - CHARACTER_SIZE / 2}px`;
 
         const jailRect = inside.getBoundingClientRect();
-        const isInsideJail = lastMousePos.x >= jailRect.left;
+        const isInsideJail = e.clientX >= jailRect.left && e.clientX <= jailRect.right &&
+                             e.clientY >= jailRect.top && e.clientY <= jailRect.bottom;
 
         if (isInsideJail) {
             activeCharacter.classList.add('trapped');
@@ -55,7 +56,10 @@ document.addEventListener('keydown', (e) => {
     activeCharacter = charDiv;
 
     const jailRect = inside.getBoundingClientRect();
-    if (lastMousePos.x >= jailRect.left) {
+    const isInsideJailOnCreation = lastMousePos.x >= jailRect.left && lastMousePos.x <= jailRect.right &&
+                                   lastMousePos.y >= jailRect.top && lastMousePos.y <= jailRect.bottom;
+
+    if (isInsideJailOnCreation) {
         activeCharacter.classList.add('trapped');
     }
 });
