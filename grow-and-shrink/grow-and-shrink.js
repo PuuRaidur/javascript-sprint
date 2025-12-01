@@ -50,7 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function getCurrentSize() {
-        return parseInt(letters[currentIndex].style.fontSize) || 14;
+        const fontSize = letters[currentIndex].style.fontSize;
+        return parseInt(fontSize) || 14;
     }
 
     function selectNext() {
