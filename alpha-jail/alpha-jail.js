@@ -42,6 +42,15 @@ document.addEventListener("DOMContentLoaded", () => {
         let y = e.clientY;
 
         if (trapped) {
+            const beforeRect = currentChar.getBoundingClientRect();
+            const beforeCenterX = beforeRect.left + beforeRect.width / 2;
+            if (!isInJail(beforeCenterX)) {
+                currentChar.remove();
+                currentChar = null;
+                trapped = false;
+                return;
+            }
+            
             if (!isInJail(x)) {
                 currentChar.remove();
                 currentChar = null;
@@ -50,6 +59,14 @@ document.addEventListener("DOMContentLoaded", () => {
             }
             
             center(currentChar, x, y);
+            
+            const afterRect = currentChar.getBoundingClientRect();
+            const afterCenterX = afterRect.left + afterRect.width / 2;
+            if (!isInJail(afterCenterX)) {
+                currentChar.remove();
+                currentChar = null;
+                trapped = false;
+            }
             return;
         }
 
