@@ -50,19 +50,20 @@ document.addEventListener("DOMContentLoaded", () => {
                 trapped = false;
                 return;
             }
-            
+
             if (!isInJail(x)) {
-                currentChar.remove();
+                currentChar.classList.remove("follow");
                 currentChar = null;
                 trapped = false;
                 return;
             }
-            
+
             center(currentChar, x, y);
-            
+
             const afterRect = currentChar.getBoundingClientRect();
             const afterCenterX = afterRect.left + afterRect.width / 2;
             if (!isInJail(afterCenterX)) {
+                currentChar.classList.remove("follow");
                 currentChar.remove();
                 currentChar = null;
                 trapped = false;
@@ -74,6 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (isInJail(x)) {
             currentChar.classList.add("trapped");
+            currentChar.classList.remove("follow");  // Critical!
             trapped = true;
         }
     });
@@ -97,6 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (isInJail(lastMouseX)) {
             currentChar.classList.add("trapped");
+            currentChar.classList.remove("follow");  // Critical!
             trapped = true;
         }
     });
