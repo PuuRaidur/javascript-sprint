@@ -10,22 +10,33 @@ let activeCharacter = null;
 let lastMousePos = { x: 0, y: 0 };
 const CHARACTER_SIZE = 40;
 
+function updateDomPosition(element, x, y) {
+    element.style.left = `${x - CHARACTER_SIZE / 2}px`;
+    element.style.top = `${y - CHARACTER_SIZE / 2}px`;
+}
+
 document.addEventListener('mousemove', (e) => {
     lastMousePos = { x: e.clientX, y: e.clientY };
 
-    if (activeCharacter && activeCharacter.classList.contains('follow')) {
-        activeCharacter.style.left = `${lastMousePos.x - CHARACTER_SIZE / 2}px`;
-        activeCharacter.style.top = `${lastMousePos.y - CHARACTER_SIZE / 2}px`;
+    if (!activeCharacter || !activeCharacter.isFollowing) {
+        return;
+    }
 
-        const jailRect = inside.getBoundingClientRect();
-        const isInsideJail = e.clientX >= jailRect.left && e.clientX <= jailRect.right &&
-                             e.clientY >= jailRect.top && e.clientY <= jailRect.bottom;
+    updateDomPosition(activeCharacter.element, lastMousePos.x, lastMousePos.y);
 
-        if (isInsideJail) {
-            activeCharacter.classList.add('trapped');
-        } else if (activeCharacter.classList.contains('trapped')) {
-            activeCharacter.classList.remove('follow');
-            activeCharacter.style.left = `${jailRect.left - CHARACTER_SIZE / 2}px`;
+    const jailRect = inside.getBoundingClientRect();
+    const isInsideJail = lastMousePos.x >= jailRect.left;
+
+    if (isInsideJail) {
+        if (!activeCharacter.isTrapped) {
+            activeCharacter.isTrapped = true;
+            activeCharacter.element.classList.add('trapped');
+        }
+    } else {
+        if (activeCharacter.isTrapped) {
+            activeCharacter.isFollowing = false;
+            activeCharacter.element.classList.remove('follow');
+            updateDomPosition(activeCharacter.element, jailRect.left, lastMousePos.y);
         }
     }
 });
@@ -42,24 +53,29 @@ document.addEventListener('keydown', (e) => {
     }
 
     if (activeCharacter) {
-        activeCharacter.classList.remove('follow');
+        activeCharacter.isFollowing = false;
+        if (activeCharacter.element) {
+            activeCharacter.element.classList.remove('follow');
+        }
     }
 
     const charDiv = document.createElement('div');
     charDiv.textContent = e.key;
     charDiv.classList.add('character', 'follow');
-    
-    charDiv.style.left = `${lastMousePos.x - CHARACTER_SIZE / 2}px`;
-    charDiv.style.top = `${lastMousePos.y - CHARACTER_SIZE / 2}px`;
 
+    updateDomPosition(charDiv, lastMousePos.x, lastMousePos.y);
     document.body.appendChild(charDiv);
-    activeCharacter = charDiv;
 
     const jailRect = inside.getBoundingClientRect();
-    const isInsideJailOnCreation = lastMousePos.x >= jailRect.left && lastMousePos.x <= jailRect.right &&
-                                   lastMousePos.y >= jailRect.top && lastMousePos.y <= jailRect.bottom;
+    const isBornInJail = lastMousePos.x >= jailRect.left;
 
-    if (isInsideJailOnCreation) {
-        activeCharacter.classList.add('trapped');
+    if (isBornInJail) {
+        charDiv.classList.add('trapped');
     }
+
+    activeCharacter = {
+        element: charDiv,
+        isFollowing: true,
+        isTrapped: isBornInJail,
+    };
 });
