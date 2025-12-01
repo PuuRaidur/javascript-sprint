@@ -42,14 +42,13 @@ document.addEventListener("DOMContentLoaded", () => {
         let y = e.clientY;
 
         if (trapped && !isInJail(x)) {
-            // Character is trapped and cursor is outside the jail – the
-            // character must stay inside, so just ignore the movement.
+            currentChar.remove();
+            currentChar = null;
+            trapped = false;
             return;
         }
 
         if (trapped) {
-            // While trapped, the character should continue to follow the cursor
-            // but only inside the jail.
             if (isInJail(x)) {
                 center(currentChar, x, y);
             }
@@ -59,8 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
         center(currentChar, x, y);
 
         if (isInJail(x)) {
-            // When entering the jail the character becomes trapped but must
-            // keep its follower styling, so we only add the `trapped` class.
             currentChar.classList.add("trapped");
             trapped = true;
         }
@@ -77,7 +74,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if (!/^[a-z]$/.test(e.key)) return;
 
         if (currentChar) {
-            // Previous character stops following the cursor but remains visible.
             currentChar.classList.remove("follow");
         }
 
@@ -85,8 +81,6 @@ document.addEventListener("DOMContentLoaded", () => {
         currentChar = spawnChar(e.key, lastMouseX, lastMouseY);
 
         if (isInJail(lastMouseX)) {
-            // New character is created directly inside the jail – it should be
-            // both a follower and trapped.
             currentChar.classList.add("trapped");
             trapped = true;
         }
