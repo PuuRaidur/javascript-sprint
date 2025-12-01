@@ -41,16 +41,27 @@ document.addEventListener("DOMContentLoaded", () => {
         let x = e.clientX;
         let y = e.clientY;
 
-        if (trapped && !isInJail(x)) {
-            currentChar.remove();
-            currentChar = null;
-            trapped = false;
-            return;
-        }
-
         if (trapped) {
+            // Always check if character is still in jail - if not, remove it
+            const charRect = currentChar.getBoundingClientRect();
+            const charCenterX = charRect.left + charRect.width / 2;
+            if (!isInJail(charCenterX)) {
+                currentChar.remove();
+                currentChar = null;
+                trapped = false;
+                return;
+            }
+            
             if (isInJail(x)) {
                 center(currentChar, x, y);
+                // Double-check after centering
+                const newCharRect = currentChar.getBoundingClientRect();
+                const newCharCenterX = newCharRect.left + newCharRect.width / 2;
+                if (!isInJail(newCharCenterX)) {
+                    currentChar.remove();
+                    currentChar = null;
+                    trapped = false;
+                }
             }
             return;
         }
