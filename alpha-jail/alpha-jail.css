@@ -1,39 +1,41 @@
 :root {
     --orange: orange;
 }
+
 body {
     margin: 0;
-    overflow: hidden;
+    display: flex;
     height: 100vh;
+    width: 100vw;
 }
+
 .zone {
-    position: absolute;
-    top: 0;
-    width: 50vw;
     height: 100%;
-    box-sizing: border-box;
+    width: 50%;
 }
+
 .outside {
-    left: 0;
-    background: #d0ffd0;
+    background-color: #f0f0f0;
 }
+
 .inside {
-    right: 0;
-    background: #ffe3e3;
-    border-left: 4px solid black;
+    background-color: #e0e0e0;
 }
+
 .character {
     position: absolute;
+    background-color: white;
     padding: 10px;
-    border-radius: 6px;
-    background: white;
-    pointer-events: none;
+    border-radius: 50%;
     font-size: 20px;
-    font-family: monospace;
+    user-select: none;
+    cursor: default;
 }
+
 .follow {
-    outline: 2px dashed black;
+    /* No specific styles for following, it's just a marker class */
 }
+
 .trapped {
-    background: var(--orange) !important;
+    background-color: var(--orange);
 }
