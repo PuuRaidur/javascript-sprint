@@ -10,7 +10,6 @@ let activeCharacter = null;
 let lastMousePos = { x: 0, y: 0 };
 
 function updateDomPosition(element, x, y) {
-    // center the character on the pointer (character is 40x40)
     element.style.left = `${x - 20}px`;
     element.style.top = `${y - 20}px`;
 }
@@ -23,17 +22,14 @@ document.addEventListener('mousemove', (e) => {
     const isInsideJail = lastMousePos.x >= jailRect.left;
 
     if (activeCharacter.isTrapped) {
-        // trapped characters follow pointer only inside jail
         if (isInsideJail) {
             updateDomPosition(activeCharacter.element, lastMousePos.x, lastMousePos.y);
         }
         return;
     }
 
-    // following outside, update position
     updateDomPosition(activeCharacter.element, lastMousePos.x, lastMousePos.y);
 
-    // trigger trap if pointer entered jail
     if (isInsideJail) {
         activeCharacter.isTrapped = true;
         activeCharacter.element.classList.add('trapped');
@@ -49,20 +45,17 @@ document.addEventListener('keydown', (e) => {
 
     if (!/^[a-z]$/.test(e.key)) return;
 
-    // detach previous character
     if (activeCharacter) {
         activeCharacter.isFollowing = false;
         activeCharacter.element.classList.remove('follow');
 
         const charRect = activeCharacter.element.getBoundingClientRect();
         const jailRect = inside.getBoundingClientRect();
-        // snap to edge if inside jail
         if (charRect.right > jailRect.left) {
             activeCharacter.element.style.left = `${jailRect.left - 40}px`; // 40px = width
         }
     }
 
-    // spawn new character
     const charDiv = document.createElement('div');
     charDiv.classList.add('character', 'follow');
     charDiv.textContent = e.key;
