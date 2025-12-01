@@ -1,0 +1,29 @@
+.bold {
+    font-weight: bold;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.underline {
+    text-decoration: underline;
+}
+
+.highlight {
+    background: yellow;
+}
+
+#content {
+    background: white;
+    padding: 10px;
+    width: fit-content;
+}
+
+.controls {
+    margin-top: 10px;
+}
+
+.controls button {
+    margin-right: 5px;
+}
