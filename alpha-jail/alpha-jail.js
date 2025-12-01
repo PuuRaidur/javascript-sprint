@@ -16,14 +16,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let currentChar = null;
     let trapped = false;
+    let lastMouseX = 0;
+    let lastMouseY = 0;
 
     function spawnChar(letter, x, y) {
         const div = document.createElement("div");
         div.classList.add("character", "follow");
         div.textContent = letter;
-        center(div, x, y) // replaced";
-        div.style.top = y + "px";
         app.appendChild(div);
+        center(div, x, y);
         return div;
     }
 
@@ -32,17 +33,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     window.addEventListener("mousemove", (e) => {
+        lastMouseX = e.clientX;
+        lastMouseY = e.clientY;
+
         if (!currentChar) return;
 
         let x = e.clientX;
         let y = e.clientY;
 
-        if (trapped) {
-            if (!isInJail(x)) return;
+        if (trapped && !isInJail(x)) {
+            currentChar.classList.remove("follow");
+            currentChar = null;
+            trapped = false;
+            return;
         }
 
-        center(currentChar, x, y)";
-        currentChar.style.top = y + "px";
+        if (trapped && !isInJail(x)) {
+            return;
+        }
+
+        center(currentChar, x, y);
 
         if (isInJail(x) && !trapped) {
             currentChar.classList.add("trapped");
@@ -54,6 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.key === "Escape") {
             document.querySelectorAll(".character").forEach((c) => c.remove());
             currentChar = null;
+            trapped = false;
             return;
         }
 
@@ -61,15 +72,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (currentChar) {
             currentChar.classList.remove("follow");
-            currentChar = null;
         }
 
         trapped = false;
-        currentChar = spawnChar(e.key, window.lastMouseX || 0, window.lastMouseY || 0);
-    });
+        currentChar = spawnChar(e.key, lastMouseX, lastMouseY);
 
-    window.addEventListener("mousemove", (e) => {
-        window.lastMouseX = e.clientX;
-        window.lastMouseY = e.clientY;
+        if (isInJail(lastMouseX)) {
+            currentChar.classList.add("trapped");
+            trapped = true;
+        }
     });
 });
