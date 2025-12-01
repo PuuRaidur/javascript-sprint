@@ -1,0 +1,38 @@
+:root {
+    --orange: orange;
+}
+body {
+    margin: 0;
+    overflow: hidden;
+    height: 100vh;
+}
+.zone {
+    position: absolute;
+    top: 0;
+    width: 50%;
+    height: 100%;
+}
+.outside {
+    left: 0;
+    background: #d0ffd0;
+}
+.inside {
+    right: 0;
+    background: #ffe3e3;
+    border-left: 4px solid black;
+}
+.character {
+    position: absolute;
+    padding: 10px;
+    border-radius: 6px;
+    background: white;
+    pointer-events: none;
+    font-size: 20px;
+    font-family: monospace;
+}
+.follow {
+    outline: 2px dashed black;
+}
+.trapped {
+    background: var(--orange) !important;
+}
